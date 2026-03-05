@@ -21,7 +21,9 @@ class _ProductSelectionPageState extends State<ProductSelectionPage> {
 
   Future<void> _load() async {
     try {
-      final products = await DatabaseHelper.instance.getProducts().timeout(const Duration(seconds: 3));
+      final products = await DatabaseHelper.instance
+          .getProducts()
+          .timeout(const Duration(seconds: 3));
       if (!mounted) return;
       setState(() {
         _products = products;
@@ -80,7 +82,8 @@ class _ProductSelectionPageState extends State<ProductSelectionPage> {
                           icon = Icons.shopping_bag;
                         }
                         return Card(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Row(
@@ -88,24 +91,42 @@ class _ProductSelectionPageState extends State<ProductSelectionPage> {
                                 Container(
                                   width: 56,
                                   height: 36,
-                                  decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(
+                                      color: color.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(8)),
                                   child: Icon(icon, color: color),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                                      Text('\$${price.toStringAsFixed(2)}', style: const TextStyle(color: Colors.blue)),
+                                      Text(name,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600)),
+                                      Text('\$${price.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                              color: Colors.blue)),
                                     ],
                                   ),
                                 ),
                                 Row(
                                   children: [
-                                    IconButton(onPressed: () => setState(() => _qty[id] = (q > 0 ? q - 1 : 0)), icon: const Icon(Icons.remove_circle_outline)),
-                                    Text(q.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    IconButton(onPressed: () => setState(() => _qty[id] = q + 1), icon: const Icon(Icons.add_circle_outline)),
+                                    IconButton(
+                                        onPressed: () => setState(() =>
+                                            _qty[id] = (q > 0 ? q - 1 : 0)),
+                                        icon: const Icon(
+                                            Icons.remove_circle_outline)),
+                                    Text(q.toString(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    IconButton(
+                                        onPressed: () =>
+                                            setState(() => _qty[id] = q + 1),
+                                        icon: const Icon(
+                                            Icons.add_circle_outline)),
                                   ],
                                 ),
                               ],
@@ -118,22 +139,35 @@ class _ProductSelectionPageState extends State<ProductSelectionPage> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Text('Total: \$${_total.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue)),
+                      Text('Total: \$${_total.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue)),
                       const Spacer(),
                       SizedBox(
                         height: 44,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: color,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12))),
                           onPressed: _total <= 0
                               ? null
                               : () async {
                                   final items = <Map<String, int>>[];
                                   _qty.forEach((pid, q) {
-                                    if (q > 0) items.add({'product_id': pid, 'qty': q});
+                                    if (q > 0)
+                                      items.add({'product_id': pid, 'qty': q});
                                   });
-                                  await DatabaseHelper.instance.setCartItems(items);
+                                  await DatabaseHelper.instance
+                                      .setCartItems(items);
                                   if (mounted) {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CheckoutPage()));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const CheckoutPage()));
                                   }
                                 },
                           child: const Text('Proceed to checkout'),

@@ -73,7 +73,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       final pos = _cardCtrl.selection.baseOffset;
       _cardCtrl.value = TextEditingValue(
         text: formatted,
-        selection: TextSelection.collapsed(offset: pos + (formatted.length - value.length)),
+        selection: TextSelection.collapsed(
+            offset: pos + (formatted.length - value.length)),
       );
     }
   }
@@ -83,22 +84,37 @@ class _CheckoutPageState extends State<CheckoutPage> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(width: 14, height: 14, decoration: const BoxDecoration(color: Color(0xFFEB001B), shape: BoxShape.circle)),
-          Transform.translate(offset: const Offset(-6, 0), child: Container(width: 14, height: 14, decoration: const BoxDecoration(color: Color(0xFFF79E1B), shape: BoxShape.circle))),
+          Container(
+              width: 14,
+              height: 14,
+              decoration: const BoxDecoration(
+                  color: Color(0xFFEB001B), shape: BoxShape.circle)),
+          Transform.translate(
+              offset: const Offset(-6, 0),
+              child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFFF79E1B), shape: BoxShape.circle))),
         ],
       );
     }
     if (digits.startsWith('4')) {
-      return const Text('VISA', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A1F71)));
+      return const Text('VISA',
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A1F71)));
     }
     if (digits.startsWith('3')) {
-      return const Text('AMEX', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.teal));
+      return const Text('AMEX',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.teal));
     }
     return const Icon(Icons.credit_card, size: 18);
   }
+
   Expiry? _parseExpiryFlexible(String input) {
     final raw = input.trim();
-    final parts = raw.split(RegExp(r'[/\-]')).where((e) => e.isNotEmpty).toList();
+    final parts =
+        raw.split(RegExp(r'[/\-]')).where((e) => e.isNotEmpty).toList();
     int? mm;
     int? yy;
     if (parts.length == 2) {
@@ -153,16 +169,45 @@ class _CheckoutPageState extends State<CheckoutPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('\$${_total.toStringAsFixed(2)}', style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.blue)),
+            Text('\$${_total.toStringAsFixed(2)}',
+                style: const TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue)),
             const SizedBox(height: 12),
-            const Text('Payment Method', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            const Text('Payment Method',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               children: [
-                ChoiceChip(label: const Row(children: [Icon(Icons.account_balance, size: 18), SizedBox(width: 6), Text('PayPal')]), selected: _method == 'PayPal', onSelected: (v) => setState(() => _method = 'PayPal'), selectedColor: color.withValues(alpha: 0.15)),
-                ChoiceChip(label: const Row(children: [Icon(Icons.credit_card, size: 18), SizedBox(width: 6), Text('Credit')]), selected: _method == 'Credit', onSelected: (v) => setState(() => _method = 'Credit'), selectedColor: color.withValues(alpha: 0.15)),
-                ChoiceChip(label: const Row(children: [Icon(Icons.account_balance_wallet, size: 18), SizedBox(width: 6), Text('Wallet')]), selected: _method == 'Wallet', onSelected: (v) => setState(() => _method = 'Wallet'), selectedColor: color.withValues(alpha: 0.15)),
+                ChoiceChip(
+                    label: const Row(children: [
+                      Icon(Icons.account_balance, size: 18),
+                      SizedBox(width: 6),
+                      Text('PayPal')
+                    ]),
+                    selected: _method == 'PayPal',
+                    onSelected: (v) => setState(() => _method = 'PayPal'),
+                    selectedColor: color.withOpacity(0.15)),
+                ChoiceChip(
+                    label: const Row(children: [
+                      Icon(Icons.credit_card, size: 18),
+                      SizedBox(width: 6),
+                      Text('Credit')
+                    ]),
+                    selected: _method == 'Credit',
+                    onSelected: (v) => setState(() => _method = 'Credit'),
+                    selectedColor: color.withOpacity(0.15)),
+                ChoiceChip(
+                    label: const Row(children: [
+                      Icon(Icons.account_balance_wallet, size: 18),
+                      SizedBox(width: 6),
+                      Text('Wallet')
+                    ]),
+                    selected: _method == 'Wallet',
+                    onSelected: (v) => setState(() => _method = 'Wallet'),
+                    selectedColor: color.withOpacity(0.15)),
               ],
             ),
             const SizedBox(height: 16),
@@ -170,7 +215,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
               margin: EdgeInsets.zero,
               elevation: 0,
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Form(
@@ -180,7 +226,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       TextFormField(
                         controller: _cardCtrl,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(prefixIcon: const Icon(Icons.credit_card), labelText: 'Card number', hintText: '1234 5678 9012 3456', border: const OutlineInputBorder(), suffixIcon: Padding(padding: const EdgeInsets.all(10), child: _brandBadge(_cardCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')))),
+                        decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.credit_card),
+                            labelText: 'Card number',
+                            hintText: '1234 5678 9012 3456',
+                            border: const OutlineInputBorder(),
+                            suffixIcon: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: _brandBadge(_cardCtrl.text
+                                    .replaceAll(RegExp(r'[^0-9]'), '')))),
                         onChanged: (v) {
                           _onCardChanged(v);
                           setState(() {});
@@ -194,7 +248,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       const SizedBox(height: 12),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Valid until', style: TextStyle(color: Colors.grey.shade700)),
+                        child: Text('Valid until',
+                            style: TextStyle(color: Colors.grey.shade700)),
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -203,12 +258,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             child: TextFormField(
                               controller: _expiryCtrl,
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(hintText: 'MM/YY', border: OutlineInputBorder()),
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9/\\-]'))],
+                              decoration: const InputDecoration(
+                                  hintText: 'MM/YY',
+                                  border: OutlineInputBorder()),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9/\\-]'))
+                              ],
                               validator: (v) {
                                 final parsed = _parseExpiryFlexible(v ?? '');
-                                if (parsed == null) return 'Valid format: MM/YY or YYYY/MM';
-                                if (parsed.month == 0 && parsed.year == 0) return 'Expired date';
+                                if (parsed == null)
+                                  return 'Valid format: MM/YY or YYYY/MM';
+                                if (parsed.month == 0 && parsed.year == 0)
+                                  return 'Expired date';
                                 return null;
                               },
                             ),
@@ -218,7 +280,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             child: TextFormField(
                               controller: _cvvCtrl,
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(labelText: 'CVV', border: OutlineInputBorder()),
+                              decoration: const InputDecoration(
+                                  labelText: 'CVV',
+                                  border: OutlineInputBorder()),
                               validator: (v) {
                                 final c = v ?? '';
                                 if (c.length < 3) return 'Invalid CVV';
@@ -232,7 +296,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       TextFormField(
                         controller: _holderCtrl,
                         textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(labelText: 'Card holder', border: OutlineInputBorder()),
+                        decoration: const InputDecoration(
+                            labelText: 'Card holder',
+                            border: OutlineInputBorder()),
                         validator: (v) {
                           if ((v ?? '').isEmpty) return 'Required';
                           return null;
@@ -246,8 +312,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           Switch(
                             value: _saveCard,
                             onChanged: (v) => setState(() => _saveCard = v),
-                            thumbColor: WidgetStateProperty.resolveWith((_) => color),
-                            trackColor: WidgetStateProperty.resolveWith((_) => color.withValues(alpha: 0.6)),
+                            thumbColor:
+                                MaterialStateProperty.resolveWith((_) => color),
+                            trackColor: MaterialStateProperty.resolveWith(
+                                (_) => color.withOpacity(0.6)),
                           ),
                         ],
                       ),
@@ -256,12 +324,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: color,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12))),
                           onPressed: () {
-                            if (_formKey.currentState?.validate() != true) return;
-                            final parsed = _parseExpiryFlexible(_expiryCtrl.text.trim());
+                            if (_formKey.currentState?.validate() != true)
+                              return;
+                            final parsed =
+                                _parseExpiryFlexible(_expiryCtrl.text.trim());
                             final expMonth = parsed?.month ?? 1;
-                            final expYear = parsed?.year ?? (DateTime.now().year % 100);
+                            final expYear =
+                                parsed?.year ?? (DateTime.now().year % 100);
                             final data = PaymentData(
                               method: _method,
                               cardNumber: _cardCtrl.text,
@@ -271,7 +346,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               holder: _holderCtrl.text,
                               saveCard: _saveCard,
                             );
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => ConfirmPage(total: _total, data: data)));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) =>
+                                    ConfirmPage(total: _total, data: data)));
                           },
                           child: const Text('Proceed to confirm'),
                         ),
